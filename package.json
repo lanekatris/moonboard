@@ -1,0 +1,7 @@
+{
+  "name": "lkat-moonboard",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Lane Katris <lane.katris@community.co>",
+  "license": "MIT"
+}
