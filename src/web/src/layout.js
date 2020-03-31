@@ -26,7 +26,7 @@ function Layout() {
         history.push(navMap[newValue])
       }}>
         <BottomNavigationAction selected={value === 'Recents'} label="Problems" icon={<List />} />
-        <BottomNavigationAction selected={value === 'Refresh'} label="Refresh" icon={<WbIncandescentOutlined />} />
+        {/*<BottomNavigationAction selected={value === 'Refresh'} label="Refresh" icon={<WbIncandescentOutlined />} />*/}
 
         <BottomNavigationAction selected={value === 'Settings'} label="Settings" icon={<Settings />} />
       </BottomNavigation>
