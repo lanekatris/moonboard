@@ -1,8 +1,8 @@
 import React, {useState, Fragment} from 'react';
 import {Route, useHistory} from "react-router-dom";
 import Problems from "./problems/problems";
-import {List, Settings, WbIncandescentOutlined} from "@material-ui/icons";
-import {AppBar, BottomNavigation, BottomNavigationAction, Container} from "@material-ui/core";
+import {List, Settings} from "@material-ui/icons";
+import {AppBar, BottomNavigation, BottomNavigationAction} from "@material-ui/core";
 
 function Layout() {
   const [value, setValue] = useState('Recents')
