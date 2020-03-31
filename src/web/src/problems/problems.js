@@ -86,6 +86,10 @@ function Problems() {
     setClicks([])
   }
 
+  const sync = () => {
+    console.log('send off these coordinates to a server')
+  }
+
   console.log('clicks', clicks);
 
   return <>
@@ -99,6 +103,10 @@ function Problems() {
             <ListItemIcon><Settings /></ListItemIcon>
             <ListItemText primary="Clear All" />
           </ListItem>
+        <ListItem button onClick={sync}>
+          <ListItemIcon><Settings /></ListItemIcon>
+          <ListItemText primary="Sync Board" />
+        </ListItem>
       </List>
       </div>
     </SwipeableDrawer>
