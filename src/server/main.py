@@ -3,6 +3,7 @@ from flask_cors import CORS
 import board
 import time
 import neopixel
+import os
 
 pixels = neopixel.NeoPixel(board.D18, 100, brightness=0.9)
 pixels.fill((0, 0, 0))
@@ -25,6 +26,10 @@ def sync():
 		pixels[i] = (255, 0, 0)
 	return json.dumps(request.json)
 
+@api.route('/shutdown', methods=['POST'])
+def shutdown():
+	pixels.fill((0, 0, 0))
+	os.system("shutdown now")
 
 if __name__ == '__main__':
 	api.run(host='0.0.0.0')

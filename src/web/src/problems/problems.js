@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -8,44 +8,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Settings } from "@material-ui/icons";
 import { clone } from "lodash";
 import axios from "axios";
-
-const useStyles = makeStyles((theme) => ({
-  center: {
-    textAlign: "center",
-  },
-  container: {
-    display: "flex",
-  },
-  item: {
-    flexGrow: 1,
-    textAlign: "center",
-    height: "50px",
-    lineHeight: "50px",
-    // backgroundColor: 'red',
-    margin: 1,
-    width: 40,
-    fontSize: ".7em",
-    border: "1px solid #ececec",
-  },
-  buffer: {
-    //     padding-bottom: 70px;
-    // padding-top: 5px;
-    paddingBottom: 70,
-    paddingTop: 5,
-  },
-  header: {
-    backgroundColor: "whitesmoke",
-  },
-  selected: {
-    background: "springgreen",
-  },
-}));
+import useStyles from "./styles";
+import { useStorage } from "../App";
 
 const c = (...classNames) => {
   return classNames.join(" ");
 };
 
-function usePersistedState(key, defaultValue) {
+export function usePersistedState(key, defaultValue) {
   const [state, setState] = React.useState(
     () => JSON.parse(localStorage.getItem(key)) || defaultValue
   );
@@ -77,8 +47,13 @@ console.log("ledorder", ledOrder);
 
 function Problems() {
   const classes = useStyles();
-  const [clicks, setClicks] = usePersistedState("clicks", []);
+  // const [clicks, setClicks] = usePersistedState("clicks", []);
+  const [clicks, setClicks] = useStorage("clicks", []);
   const [showDrawer, setShowDrawer] = useState(false);
+
+  useEffect(() => {
+    sync();
+  }, [clicks]);
 
   const handleClick = (id) => {
     if (clicks.includes(id)) {
@@ -110,29 +85,29 @@ function Problems() {
 
   return (
     <>
-      <SwipeableDrawer
-        onClose={() => setShowDrawer(false)}
-        onOpen={() => setShowDrawer(true)}
-        open={showDrawer}
-      >
-        <div style={{ width: 250 }}>
-          {/*<h4>More Options</h4>*/}
-          <List>
-            <ListItem button onClick={clearAll}>
-              <ListItemIcon>
-                <Settings />
-              </ListItemIcon>
-              <ListItemText primary="Clear All" />
-            </ListItem>
-            <ListItem button onClick={sync}>
-              <ListItemIcon>
-                <Settings />
-              </ListItemIcon>
-              <ListItemText primary="Sync Board" />
-            </ListItem>
-          </List>
-        </div>
-      </SwipeableDrawer>
+      {/*<SwipeableDrawer*/}
+      {/*  onClose={() => setShowDrawer(false)}*/}
+      {/*  onOpen={() => setShowDrawer(true)}*/}
+      {/*  open={showDrawer}*/}
+      {/*>*/}
+      {/*  <div style={{ width: 250 }}>*/}
+      {/*    /!*<h4>More Options</h4>*!/*/}
+      {/*    <List>*/}
+      {/*      <ListItem button onClick={clearAll}>*/}
+      {/*        <ListItemIcon>*/}
+      {/*          <Settings />*/}
+      {/*        </ListItemIcon>*/}
+      {/*        <ListItemText primary="Clear All" />*/}
+      {/*      </ListItem>*/}
+      {/*      <ListItem button onClick={sync}>*/}
+      {/*        <ListItemIcon>*/}
+      {/*          <Settings />*/}
+      {/*        </ListItemIcon>*/}
+      {/*        <ListItemText primary="Sync Board" />*/}
+      {/*      </ListItem>*/}
+      {/*    </List>*/}
+      {/*  </div>*/}
+      {/*</SwipeableDrawer>*/}
 
       <div className={classes.buffer}>
         <div className={classes.container}>
