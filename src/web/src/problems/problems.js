@@ -7,17 +7,9 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Settings } from "@material-ui/icons";
 import { clone } from "lodash";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   flexGrow: 1,
-  // },
-  // paper: {
-  //   padding: theme.spacing(2),
-  //   textAlign: 'center',
-  //   color: theme.palette.text.secondary,
-  // },
-
   center: {
     textAlign: "center",
   },
@@ -85,7 +77,6 @@ console.log("ledorder", ledOrder);
 
 function Problems() {
   const classes = useStyles();
-  // const [clicks, setClicks] = useState([]);
   const [clicks, setClicks] = usePersistedState("clicks", []);
   const [showDrawer, setShowDrawer] = useState(false);
 
@@ -103,12 +94,16 @@ function Problems() {
     setClicks([]);
   };
 
-  const sync = () => {
-    const payload = [];
+  const sync = async () => {
+    const payload = { holds: [] };
     clicks.forEach((click) => {
-      payload.push(ledOrder.indexOf(click));
+      payload.holds.push(ledOrder.indexOf(click));
     });
     console.log("send off these coordinates to a server", payload);
+    const url = "http://192.168.86.69:5000/sync";
+    // const url = "http://localhost:5000/sync"
+    const result = await axios.post(url, payload);
+    console.log("result", result);
   };
 
   console.log("clicks", clicks);
@@ -140,8 +135,6 @@ function Problems() {
       </SwipeableDrawer>
 
       <div className={classes.buffer}>
-        {/*<h1 className={classes.center}>Problems ({clicks})</h1>*/}
-
         <div className={classes.container}>
           <div className={classes.item}></div>
           {columns.map((coumn) => (
@@ -159,7 +152,6 @@ function Problems() {
                 key={`column-${column}`}
                 className={classes.item}
                 style={{
-                  //backgroundColor: clicks.includes(`${column}${row}`) ? 'blue' : null
                   background: clicks.includes(`${column}${row}`)
                     ? "springgreen"
                     : null,
