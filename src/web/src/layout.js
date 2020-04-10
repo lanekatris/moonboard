@@ -1,9 +1,11 @@
 import React, { useState, Fragment } from "react";
 import { Route, useHistory } from "react-router-dom";
-import Problems, { usePersistedState } from "./problems/problems";
+import Problems, { sync, usePersistedState } from "./problems/problems";
 import { List, Settings } from "@material-ui/icons";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+
+import RefreshIcon from "@material-ui/icons/Refresh";
 import {
   AppBar,
   BottomNavigation,
@@ -34,7 +36,7 @@ function Layout() {
           value={value}
           onChange={(event, newValue) => {
             console.log(event, newValue);
-            if (newValue !== 2) {
+            if (newValue < 2) {
               setValue(newValue);
               history.push(navMap[newValue]);
             }
@@ -53,6 +55,17 @@ function Layout() {
             label="Settings"
             icon={<Settings />}
           />
+
+          <BottomNavigationAction
+            label="Sync"
+            icon={<RefreshIcon />}
+            onClick={() => {
+              console.log("sync", clicks);
+              // setClicks([]);
+              sync(clicks);
+            }}
+          />
+
           <BottomNavigationAction
             label="Clear All"
             icon={<DeleteForeverIcon />}

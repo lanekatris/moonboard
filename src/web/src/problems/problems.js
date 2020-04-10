@@ -45,6 +45,18 @@ columns.forEach((column, i) => {
 });
 console.log("ledorder", ledOrder);
 
+export const sync = async (clicks) => {
+  const payload = { holds: [] };
+  clicks.forEach((click) => {
+    payload.holds.push(ledOrder.indexOf(click));
+  });
+  console.log("send off these coordinates to a server", payload);
+  const url = "http://192.168.86.69:5000/sync";
+  // const url = "http://localhost:5000/sync"
+  const result = await axios.post(url, payload);
+  console.log("result", result);
+};
+
 function Problems() {
   const classes = useStyles();
   // const [clicks, setClicks] = usePersistedState("clicks", []);
@@ -52,7 +64,7 @@ function Problems() {
   const [showDrawer, setShowDrawer] = useState(false);
 
   useEffect(() => {
-    sync();
+    sync(clicks);
   }, [clicks]);
 
   const handleClick = (id) => {
@@ -67,18 +79,6 @@ function Problems() {
 
   const clearAll = () => {
     setClicks([]);
-  };
-
-  const sync = async () => {
-    const payload = { holds: [] };
-    clicks.forEach((click) => {
-      payload.holds.push(ledOrder.indexOf(click));
-    });
-    console.log("send off these coordinates to a server", payload);
-    const url = "http://192.168.86.69:5000/sync";
-    // const url = "http://localhost:5000/sync"
-    const result = await axios.post(url, payload);
-    console.log("result", result);
   };
 
   console.log("clicks", clicks);
@@ -111,7 +111,7 @@ function Problems() {
 
       <div className={classes.buffer}>
         <div className={classes.container}>
-          <div className={classes.item}></div>
+          <div className={classes.item}>{clicks.length}</div>
           {columns.map((coumn) => (
             <div key={coumn} className={c(classes.item, classes.header)}>
               {coumn}
