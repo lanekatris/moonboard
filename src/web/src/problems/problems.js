@@ -51,7 +51,7 @@ export const sync = async (clicks) => {
     payload.holds.push(ledOrder.indexOf(click));
   });
   console.log("send off these coordinates to a server", payload);
-  const url = "http://192.168.86.69:5000/sync";
+  const url = `${process.env.REACT_APP_SERVER_URL}/sync`;
   // const url = "http://localhost:5000/sync"
   const result = await axios.post(url, payload);
   console.log("result", result);

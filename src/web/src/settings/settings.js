@@ -9,7 +9,7 @@ function Settings() {
         variant="contained"
         color="secondary"
         onClick={async () => {
-          const url = "http://192.168.86.69:5000/shutdown";
+          const url = `${process.env.REACT_APP_SERVER_URL}/shutdown`;
           // const url = "http://localhost:5000/sync"
           const result = await axios.post(url);
           console.log("shutdown", result);
