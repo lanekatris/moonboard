@@ -1,0 +1,13 @@
+version: '2'
+services:
+#  web:
+#    build: ./src/web
+#    expose:
+#      - "80"
+  server:
+    build: ./src/server
+    privileged: true
+    network_mode: host
+    expose:
+      - "5000:5000"
+
