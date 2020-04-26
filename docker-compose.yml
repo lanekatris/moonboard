@@ -1,13 +1,16 @@
 version: '2'
 services:
-#  web:
-#    build: ./src/web
-#    expose:
-#      - "80"
+  web:
+    build: ./src/web
+    expose:
+      - "80"
+    network_mode: host
+    depends_on:
+      - server
   server:
     build: ./src/server
     privileged: true
-    network_mode: host
+    network_mode: bridge
     ports:
       - "5000:5000"
 
