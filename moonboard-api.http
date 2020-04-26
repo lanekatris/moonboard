@@ -1,0 +1,22 @@
+POST http://e7a539b.local:5000/sync
+Content-Type: application/json
+
+{
+  "holds": []
+}
+
+###
+POST http://e7a539b.local:5000/sync
+Content-Type: application/json
+
+{
+  "holds": [
+    0,
+    99,
+
+
+    100,
+    199
+  ]
+}
+
