@@ -10,7 +10,8 @@ COPY yarn.lock ./
 RUN yarn install --frozen-lockfile
 RUN npm install react-scripts@3.4.1 -g --silent
 COPY . ./
-ENV REACT_APP_SERVER_URL http://e7a539b.local:5000/
+#ENV REACT_APP_SERVER_URL http://e7a539b.local:5000/
+ENV REACT_APP_SERVER_URL http://10.42.0.1:5000/
 RUN npm run build
 
 # production environment
