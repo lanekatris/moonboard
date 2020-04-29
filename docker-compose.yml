@@ -10,7 +10,7 @@ services:
   server:
     build: ./src/server
     privileged: true
-    network_mode: bridge
+    network_mode: host
     ports:
       - "5000:5000"
 
