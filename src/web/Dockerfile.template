@@ -18,7 +18,17 @@ RUN npm run build
 # This is only for RPi 4
 #FROM arm64v8/nginx:1.17.10-alpine
 
-FROM arm32v6/nginx:1.17.10-alpine
-COPY --from=build /app/build /usr/share/nginx/html
+# Didn't work for rpi zero w
+#FROM arm32v6/nginx:1.17.10-alpine
+#FROM linuxserver/nginx
+
+# Works for rpi zero w
+FROM tobi312/rpi-nginx
+
+# Meant for other images NON rpi zero w
+#COPY --from=build /app/build /usr/share/nginx/html
+
+COPY --from=build /app/build /var/www/html
+
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
