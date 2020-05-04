@@ -10,6 +10,7 @@ import { clone } from "lodash";
 import axios from "axios";
 import useStyles from "./styles";
 import { useStorage } from "../App";
+import { SliderPicker } from "react-color";
 
 const c = (...classNames) => {
   return classNames.join(" ");
@@ -62,9 +63,10 @@ function Problems() {
   // const [clicks, setClicks] = usePersistedState("clicks", []);
   const [clicks, setClicks] = useStorage("clicks", []);
   const [showDrawer, setShowDrawer] = useState(false);
+  const [color, setColor] = useState();
 
   useEffect(() => {
-    sync(clicks);
+    // sync(clicks);
   }, [clicks]);
 
   const handleClick = (id) => {
@@ -82,33 +84,10 @@ function Problems() {
   };
 
   console.log("clicks", clicks);
+  console.log("color state", color);
 
   return (
-    <>
-      {/*<SwipeableDrawer*/}
-      {/*  onClose={() => setShowDrawer(false)}*/}
-      {/*  onOpen={() => setShowDrawer(true)}*/}
-      {/*  open={showDrawer}*/}
-      {/*>*/}
-      {/*  <div style={{ width: 250 }}>*/}
-      {/*    /!*<h4>More Options</h4>*!/*/}
-      {/*    <List>*/}
-      {/*      <ListItem button onClick={clearAll}>*/}
-      {/*        <ListItemIcon>*/}
-      {/*          <Settings />*/}
-      {/*        </ListItemIcon>*/}
-      {/*        <ListItemText primary="Clear All" />*/}
-      {/*      </ListItem>*/}
-      {/*      <ListItem button onClick={sync}>*/}
-      {/*        <ListItemIcon>*/}
-      {/*          <Settings />*/}
-      {/*        </ListItemIcon>*/}
-      {/*        <ListItemText primary="Sync Board" />*/}
-      {/*      </ListItem>*/}
-      {/*    </List>*/}
-      {/*  </div>*/}
-      {/*</SwipeableDrawer>*/}
-
+    <div style={{ position: "relative" }}>
       <div className={classes.buffer}>
         <div className={classes.container}>
           <div className={classes.item}>{clicks.length}</div>
@@ -140,7 +119,26 @@ function Problems() {
           </div>
         ))}
       </div>
-    </>
+      <div
+        style={{
+          position: "fixed",
+          bottom: 55,
+          // background: "red",
+          width: "100%",
+          height: 30,
+          left: 0,
+        }}
+      >
+        <SliderPicker
+          color={color}
+          onChange={(c) => console.log("onchange", c)}
+          onChangeComplete={(c) => {
+            console.log("complete", c);
+            setColor(c);
+          }}
+        />
+      </div>
+    </div>
   );
 }
 export default Problems;
