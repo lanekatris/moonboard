@@ -126,6 +126,35 @@ function Problems() {
     setClicks([...clicks, ...bulkLedsToAdd]);
   };
 
+  const isRowFullySelected = (row) => {
+    //setClicks([...clicks.filter(click => !click.includes(row))])
+    const maxRowCount = columns.length;
+    const clicksWithinRow = clicks.filter((click) => click.includes(row));
+    // debugger;
+    return clicksWithinRow.length === maxRowCount;
+  };
+
+  const handleRowClick = (row) => {
+    // debugger;
+    row = row.toString();
+    console.log("row is", row);
+    if (isRowFullySelected(row)) {
+      setClicks([...clicks.filter((click) => !click.includes(row))]);
+      return;
+    }
+
+    const bulkLedsToAdd = [];
+    ledOrder.forEach((led) => {
+      if (!led.includes(row)) return;
+
+      if (!clicks.includes(led)) {
+        bulkLedsToAdd.push(led);
+      }
+    });
+
+    setClicks([...clicks, ...bulkLedsToAdd]);
+  };
+
   console.log("clicks", clicks);
   console.log("color state", color);
 
@@ -147,7 +176,12 @@ function Problems() {
 
         {reversedRows.map((row, i) => (
           <div key={`row-${row}`} className={classes.container}>
-            <div className={c(classes.item, classes.header)}>{row}</div>
+            <div
+              className={c(classes.item, classes.header)}
+              onClick={() => handleRowClick(row)}
+            >
+              {row}
+            </div>
             {columns.map((column) => (
               <div
                 key={`column-${column}`}
