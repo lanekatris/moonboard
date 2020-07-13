@@ -62,10 +62,15 @@ function Problems() {
   const classes = useStyles();
   // const [clicks, setClicks] = usePersistedState("clicks", []);
   const [clicks, setClicks] = useStorage("clicks", []);
+
+  // Know whether they have a fully selected column or not
+  const [columnState, setColumnState] = useStorage("columnState", {});
+
   const [showDrawer, setShowDrawer] = useState(false);
   const [color, setColor] = useState();
 
   useEffect(() => {
+    // TODO: Re-enable once ready to push
     // sync(clicks);
   }, [clicks]);
 
@@ -83,6 +88,44 @@ function Problems() {
     setClicks([]);
   };
 
+  const isColumnFullySelected = (column) => {
+    const maxColumnCount = rows.length;
+
+    const clicksWithinColumn = clicks.filter((click) =>
+      click.startsWith(column)
+    );
+
+    return clicksWithinColumn.length === maxColumnCount;
+  };
+
+  const handleColumnClick = (column) => {
+    // If the column is selected then deselect it
+    // Are all selected?
+    if (isColumnFullySelected(column)) {
+      // We need to de-select all of them
+      setClicks([...clicks.filter((click) => !click.startsWith(column))]);
+      console.log("resetting");
+      return;
+    }
+
+    console.log("handle column click", column);
+    const bulkLedsToAdd = [];
+
+    // Match based on the beginning of the led coordinates
+    ledOrder.forEach((led) => {
+      // We only care about leds in the column they clicked
+      if (!led.startsWith(column)) return;
+
+      // Have we already selected one of these? Yes - don't do anything
+      if (!clicks.includes(led)) {
+        bulkLedsToAdd.push(led);
+      }
+    });
+
+    console.log("setting column leds", bulkLedsToAdd);
+    setClicks([...clicks, ...bulkLedsToAdd]);
+  };
+
   console.log("clicks", clicks);
   console.log("color state", color);
 
@@ -92,7 +135,11 @@ function Problems() {
         <div className={classes.container}>
           <div className={classes.item}>{clicks.length}</div>
           {columns.map((coumn) => (
-            <div key={coumn} className={c(classes.item, classes.header)}>
+            <div
+              key={coumn}
+              className={c(classes.item, classes.header)}
+              onClick={() => handleColumnClick(coumn)}
+            >
               {coumn}
             </div>
           ))}
@@ -119,25 +166,25 @@ function Problems() {
           </div>
         ))}
       </div>
-      <div
-        style={{
-          position: "fixed",
-          bottom: 55,
-          // background: "red",
-          width: "100%",
-          height: 30,
-          left: 0,
-        }}
-      >
-        <SliderPicker
-          color={color}
-          onChange={(c) => console.log("onchange", c)}
-          onChangeComplete={(c) => {
-            console.log("complete", c);
-            setColor(c);
-          }}
-        />
-      </div>
+      {/*<div*/}
+      {/*  style={{*/}
+      {/*    position: "fixed",*/}
+      {/*    bottom: 55,*/}
+      {/*    // background: "red",*/}
+      {/*    width: "100%",*/}
+      {/*    height: 30,*/}
+      {/*    left: 0,*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <SliderPicker*/}
+      {/*    color={color}*/}
+      {/*    onChange={(c) => console.log("onchange", c)}*/}
+      {/*    onChangeComplete={(c) => {*/}
+      {/*      console.log("complete", c);*/}
+      {/*      setColor(c);*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*</div>*/}
     </div>
   );
 }
