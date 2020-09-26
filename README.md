@@ -7,7 +7,7 @@ Instead of DIYing the lights on your moonboard you should purchase directly from
 
 ### Table of contents
 * Overview
-
+* Using a RPI3 instead of a RPI1 because it is so slow and has intermittent wifi hostig!
 **Software Choices**
 
 
