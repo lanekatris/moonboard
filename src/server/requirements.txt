@@ -1,5 +1,5 @@
 flask==1.1.1
-flask-cors==3.0.8
+flask-cors==3.0.9
 rpi-ws281x==4.2.2
 adafruit-circuitpython-neopixel==3.3.7
 RPi.GPIO==0.6.5
